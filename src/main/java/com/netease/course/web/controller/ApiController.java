@@ -97,7 +97,7 @@ public class ApiController {
 			file.transferTo(tempFile);
 			map.put("code", 200);
 			map.put("message", "上传成功");
-			map.put("result", request.getServletContext().getRealPath("/") + "image/" + fileName);
+			map.put("result", request.getContextPath() + "image/" + fileName);
 		} catch (IllegalStateException e) {
 			map.put("code", 403);
 			map.put("message", "上传失败");
