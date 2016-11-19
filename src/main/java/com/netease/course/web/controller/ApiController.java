@@ -86,13 +86,16 @@ public class ApiController {
 	public Map<String, Object> uploadProductImage(@RequestParam MultipartFile file, HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String fileName = file.getOriginalFilename();
-		String filePath = request.getServletContext().getRealPath("/image");		
+		String filePath = request.getSession().getServletContext().getRealPath("/image");		
 		File tempFile = new File(filePath, fileName); 
+		if(!tempFile.exists()){  
+			tempFile.mkdirs();  
+        } 
         try {
 			file.transferTo(tempFile);
 			map.put("code", 200);
 			map.put("message", "上传成功");
-			map.put("result", "/image/"+fileName);			
+			map.put("result", filePath+File.separator+fileName);			
 		} catch (IllegalStateException e) {
 			map.put("code", 403);
 			map.put("message", "上传失败");
