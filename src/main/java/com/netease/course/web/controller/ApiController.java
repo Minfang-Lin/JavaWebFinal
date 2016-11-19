@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.netease.course.model.Buy;
 import com.netease.course.model.SettleAccount;
 import com.netease.course.model.User;
 import com.netease.course.service.impl.ProductService;
@@ -95,9 +94,10 @@ public class ApiController {
 		}
 		try {
 			file.transferTo(tempFile);
+			filePath = request.getScheme()+"://"+request.getServerName()+":"+ request.getServerPort()+"/image/" + fileName;
 			map.put("code", 200);
 			map.put("message", "上传成功");
-			map.put("result", request.getContextPath() + "image/" + fileName);
+			map.put("result", filePath);
 		} catch (IllegalStateException e) {
 			map.put("code", 403);
 			map.put("message", "上传失败");

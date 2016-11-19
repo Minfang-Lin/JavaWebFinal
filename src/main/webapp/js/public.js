@@ -85,7 +85,7 @@
 			}.bind(this));
 			image.addEventListener('input',function(e){
 				var value = image.value.trim();
-				if(value != ''){
+				if(value != '' && /^(http|https):\/\//.test(value) && /\.(jpg|gif|png)$/.test(value)){
 					imgpre.src = value;
 				}
 			}.bind(this),false);
@@ -95,7 +95,7 @@
 			[
 				[title,function(value){return value.length<2 || value.length>80}],
 				[summary,function(value){return value.length<2 || value.length>140}],
-				[image,function(value){return imageMode == "urlUpload" && value == ''}],
+				[image,function(value){return imageMode == "urlUpload" && (value == '' || !(/^(http|https):\/\//.test(value) && /\.(jpg|gif|png)$/.test(value)))}],
 				[detail,function(value){return value.length<2 || value.length>1000}],
 				[price,function(value){return value == '' || !Number(value)}]
 			].forEach(function(item){
