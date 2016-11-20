@@ -86,7 +86,9 @@ public class ApiController {
 	public Map<String, Object> uploadProductImage(HttpSession session, HttpServletRequest request) {
 		MultipartFile file = ((MultipartHttpServletRequest) request).getFile("file");
 		Map<String, Object> map = new HashMap<String, Object>();
-		String fileName = System.currentTimeMillis() + "-" + file.getOriginalFilename();
+		// 文件名重命名为用户id+时间戳+后缀名
+		String fileName = ((User) session.getAttribute("user")).getId() + "-" + System.currentTimeMillis()
+				+ file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 		String filePath = request.getSession().getServletContext().getRealPath("/image");
 		File tempFile = new File(filePath, fileName);
 		if (!tempFile.exists()) {
@@ -94,7 +96,8 @@ public class ApiController {
 		}
 		try {
 			file.transferTo(tempFile);
-			filePath = request.getScheme()+"://"+request.getServerName()+":"+ request.getServerPort()+"/image/" + fileName;
+			filePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/image/"
+					+ fileName;
 			map.put("code", 200);
 			map.put("message", "上传成功");
 			map.put("result", filePath);
