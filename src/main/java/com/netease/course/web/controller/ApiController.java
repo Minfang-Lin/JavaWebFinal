@@ -83,7 +83,7 @@ public class ApiController {
 	}
 
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public Map<String, Object> uploadProductImage(HttpServletRequest request) {
+	public Map<String, Object> uploadProductImage(HttpSession session, HttpServletRequest request) {
 		MultipartFile file = ((MultipartHttpServletRequest) request).getFile("file");
 		Map<String, Object> map = new HashMap<String, Object>();
 		String fileName = System.currentTimeMillis() + "-" + file.getOriginalFilename();

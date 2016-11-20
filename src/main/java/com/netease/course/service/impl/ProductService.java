@@ -91,12 +91,15 @@ public class ProductService {
 
 	public boolean insertPurchase(List<SettleAccount> buyList, int personId, long time) {
 		for (SettleAccount buyInfo : buyList) {
+			if (buyInfo.getNumber() == 0) {
+				continue;
+			}
 			Product product = dao.getProductInfoById(buyInfo.getId());
 			if (product == null) {
 				return false;
 			}
 			int price = (int) product.getPrice();
-			if (!dao.insertPurchase(buyInfo.getId(), personId, price, time, buyInfo.getNumber())){
+			if (!dao.insertPurchase(buyInfo.getId(), personId, price, time, buyInfo.getNumber())) {
 				return false;
 			}
 		}
